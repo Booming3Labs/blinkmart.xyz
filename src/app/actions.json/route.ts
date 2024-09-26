@@ -1,4 +1,5 @@
 import { ACTIONS_CORS_HEADERS, ActionsJson } from "@solana/actions";
+export const runtime = "edge";
 
 export const GET = async () => {
   const payload: ActionsJson = {

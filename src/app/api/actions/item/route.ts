@@ -3,7 +3,6 @@ import {
   ActionGetResponse,
   ActionPostRequest,
   ActionPostResponse,
-  MEMO_PROGRAM_ID,
   createActionHeaders,
   createPostResponse,
 } from "@solana/actions";
@@ -13,12 +12,10 @@ import {
   PublicKey,
   SystemProgram,
   Transaction,
-  TransactionInstruction,
   clusterApiUrl,
 } from "@solana/web3.js";
-import dotenv from "dotenv";
+export const runtime = "edge";
 
-dotenv.config();
 const amount = 1;
 const toPubkey = new PublicKey("Bm3iBh2Th3n1QjJg1LLYfmpuqbV5V2dBomaEk5utsy8a");
 // create the standard headers for this route (including CORS)
@@ -77,7 +74,6 @@ export const POST = async (req: Request) => {
     }
 
     const transaction = new Transaction();
-    const requestUrl = new URL(req.url);
 
     transaction.add(
       SystemProgram.transfer({
