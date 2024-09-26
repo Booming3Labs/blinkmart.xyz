@@ -14,6 +14,7 @@ import {
   Transaction,
   clusterApiUrl,
 } from "@solana/web3.js";
+
 export const runtime = "edge";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 
@@ -22,6 +23,16 @@ const toPubkey = new PublicKey("Bm3iBh2Th3n1QjJg1LLYfmpuqbV5V2dBomaEk5utsy8a");
 // create the standard headers for this route (including CORS)
 const headers = createActionHeaders({ chainId: "mainnet-beta", actionVersion: "1" });
 export const GET = (req: Request) => {
+
+  const { env } = getRequestContext();
+
+  console.log("runtime edge")
+  console.log(/variable/);
+  console.log(env.TEST);
+  console.log(`rpc: ${env.RPC_URL_MAINNET}`);
+  console.log(/variable/);
+  console.log( "runtime edge")
+
   try {
     const requestUrl = new URL(req.url);
     const baseHref = new URL(
@@ -87,6 +98,11 @@ export const POST = async (req: Request) => {
     transaction.feePayer = account;
 
     const { env } = getRequestContext();
+
+    console.log(/rpc/);
+    console.log(env.RPC_URL_MAINNET);
+    console.log(/rpc/);
+
     const connection = new Connection(
       env.RPC_URL_MAINNET ?? clusterApiUrl("mainnet-beta")
     );
@@ -99,7 +115,7 @@ export const POST = async (req: Request) => {
         } catch (error) {
           console.error(`获取最新区块哈希失败，尝试次数：${i + 1}`, error);
           if (i === retries - 1) throw error;
-          await new Promise(resolve => setTimeout(resolve, 1000)); // 等待1秒后重试
+          await new Promise(resolve => setTimeout(resolve, 1000)); // 等待 1 秒后重试
         }
       }
     };
