@@ -15,6 +15,7 @@ import {
   clusterApiUrl,
 } from "@solana/web3.js";
 export const runtime = "edge";
+import { getRequestContext } from "@cloudflare/next-on-pages";
 
 const amount = 1;
 const toPubkey = new PublicKey("Bm3iBh2Th3n1QjJg1LLYfmpuqbV5V2dBomaEk5utsy8a");
@@ -85,8 +86,9 @@ export const POST = async (req: Request) => {
 
     transaction.feePayer = account;
 
+    const { env } = getRequestContext();
     const connection = new Connection(
-      process.env.RPC_URL_MAINNET ?? clusterApiUrl("mainnet-beta")
+      env.RPC_URL_MAINNET ?? clusterApiUrl("mainnet-beta")
     );
     // 添加重试逻辑
     const getRecentBlockhash = async (retries = 3) => {
